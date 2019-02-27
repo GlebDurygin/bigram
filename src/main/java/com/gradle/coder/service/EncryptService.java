@@ -52,10 +52,10 @@ public class EncryptService {
             int index = 0;
             StringBuilder stringBuilder = new StringBuilder();
             while (symbol != -1) {
-                if (!checkLetterInAlphabet(Character.toLowerCase((char) symbol))) {
+                if (!checkLetterInAlphabet((char) symbol)) {
                         stringBuilder.append((char) symbol);
                 } else {
-                    buffer.append(Character.toLowerCase((char) symbol));
+                    buffer.append((char) symbol);
                     if (buffer.length() == 1) {
                         index = stringBuilder.length();
                     } else {
@@ -63,7 +63,7 @@ public class EncryptService {
                         if (code) buffer.put((keyService.getKey().getKeyCode().get(buffer.toString())));
                         else buffer.put((keyService.getKey().getKeyEncode().get(buffer.toString())));
                         buffer.compact();
-                        stringBuilder.append(buffer.get(1));
+                        if (bufferedReader.ready()) stringBuilder.append(buffer.get(1));
                         stringBuilder.insert(index, buffer.get(0));
                         bufferedWriter.write(stringBuilder.toString());
                         stringBuilder.delete(0, stringBuilder.length());
