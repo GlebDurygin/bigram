@@ -63,7 +63,8 @@ public class EncryptService {
                         if (code) buffer.put((keyService.getKey().getKeyCode().get(buffer.toString())));
                         else buffer.put((keyService.getKey().getKeyEncode().get(buffer.toString())));
                         buffer.compact();
-                        if (bufferedReader.ready()) stringBuilder.append(buffer.get(1));
+                        if (bufferedReader.ready() || (!bufferedReader.ready() && buffer.get(1) != keyService.getKey().getSpecialCharacter()))
+                            stringBuilder.append(buffer.get(1));
                         stringBuilder.insert(index, buffer.get(0));
                         bufferedWriter.write(stringBuilder.toString());
                         stringBuilder.delete(0, stringBuilder.length());
