@@ -8,21 +8,18 @@ import java.util.Map;
 
 public class CoderUtils {
 
-    private CharBuffer buffer =CharBuffer.allocate(2);
+    private CharBuffer buffer = CharBuffer.allocate(2);
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private Key key;
 
     public void CodingTxt(File inputTxt, File cipherTxt, Key key) {
         try {
             initValues(inputTxt, cipherTxt);
-            Map<String, String> keyMap = key.getKey();
-            this.key = key;
             int symbol = bufferedReader.read();
             int index = 0;
             StringBuilder stringBuilder = new StringBuilder();
             while (symbol != -1) {
-                if (!checkLetterInAlphabet((char) symbol)) {
+                if (!checkLetterInAlphabet((char) symbol, key)) {
                     stringBuilder.append((char) symbol);
                 } else {
                     buffer.append((char) symbol);
@@ -30,7 +27,7 @@ public class CoderUtils {
                         index = stringBuilder.length();
                     } else {
                         buffer.compact();
-                        buffer.put((keyMap.get(buffer.toString())));
+                        buffer.put((key.getKeyCode().get(buffer.toString())));
                         buffer.compact();
                         stringBuilder.append(buffer.get(1));
                         stringBuilder.insert(index, buffer.get(0));
@@ -44,7 +41,7 @@ public class CoderUtils {
                 if (buffer.length() == 1) {
                     buffer.append(key.getSpecialCharacter());
                     buffer.compact();
-                    buffer.put((keyMap.get(buffer.toString())));
+                    buffer.put((key.getKeyCode().get(buffer.toString())));
                     buffer.compact();
                     stringBuilder.append(buffer.get(1));
                     stringBuilder.insert(index, buffer.get(0));
@@ -64,15 +61,12 @@ public class CoderUtils {
         try {
             bufferedReader = new BufferedReader(new FileReader(inputTxt));
             bufferedWriter = new BufferedWriter(new FileWriter(cipherTxt));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean checkLetterInAlphabet(char letter) {
-        if (key.getAlphabet().indexOf(letter) != -1) return true;
-        else return false;
+    private boolean checkLetterInAlphabet(char letter, Key key) {
+        return key.getAlphabet().indexOf(letter) != -1;
     }
 }

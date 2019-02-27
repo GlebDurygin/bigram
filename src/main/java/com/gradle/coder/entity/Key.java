@@ -6,7 +6,17 @@ import java.util.Map;
 public class Key {
     private String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    private Map<String,String> key;
+    private Map<String,String> keyCode;
+
+    public Map<String, String> getKeyEncode() {
+        return keyEncode;
+    }
+
+    public void setKeyEncode(Map<String, String> keyEncode) {
+        this.keyEncode = keyEncode;
+    }
+
+    private Map<String,String> keyEncode;
 
     private ArrayList<String> supportKey = new ArrayList<>();
 
@@ -22,12 +32,12 @@ public class Key {
         }
     }
 
-    public Map<String, String> getKey() {
-        return key;
+    public Map<String, String> getKeyCode() {
+        return keyCode;
     }
 
-    public void setKey(Map<String, String> key) {
-        this.key = key;
+    public void setKeyCode(Map<String, String> keyCode) {
+        this.keyCode = keyCode;
     }
 
     public String getAlphabet() {

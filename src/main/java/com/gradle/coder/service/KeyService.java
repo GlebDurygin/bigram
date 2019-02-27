@@ -14,7 +14,8 @@ public class KeyService {
 
     private Key key;
     private static KeyService instance;
-    private Map<String, String> keyMap;
+    private Map<String, String> keyMapCode;
+    private Map<String, String> keyMapEncode;
     private final Random random = new Random();
     private ArrayList<String> supportList;
 
@@ -31,7 +32,8 @@ public class KeyService {
 
     public void generateKey(File keyFile) {
         try(FileWriter keyWriter= new FileWriter(keyFile)) {
-            keyMap = new HashMap<>();
+            keyMapCode = new HashMap<>();
+            keyMapEncode = new HashMap<>();
             supportList = key.getSupportKey();
 
             for (char s1 : key.getAlphabet().toCharArray()) {
@@ -39,7 +41,8 @@ public class KeyService {
                 for (char s2 : key.getAlphabet().toCharArray()) {
                     int index = random.nextInt(supportList.size());
                     String codeString = supportList.get(index);
-                    keyMap.put(String.valueOf(new char[] {s1,s2}), codeString);
+                    keyMapCode.put(String.valueOf(new char[] {s1,s2}), codeString);
+                    keyMapEncode.put(codeString, String.valueOf(new char[] {s1,s2}));
                     supportList.remove(index);
                     stringBuilder.append(codeString + " ");
                 }
@@ -48,7 +51,8 @@ public class KeyService {
                 keyWriter.write(stringBuilder.toString());
             }
             keyWriter.flush();
-            key.setKey(keyMap);
+            key.setKeyCode(keyMapCode);
+            key.setKeyEncode(keyMapEncode);
         } catch (IOException e) {
             e.printStackTrace();
         }
